@@ -2,7 +2,50 @@ const form = document.querySelector("form");
 const input = document.querySelector("input");
 const todoList = document.querySelector("#todoList");
 
-// Define a function to add a new todo item to the list
+class Todo {
+  constructor(text, completed) {
+    this.text = text;
+    this.completed = completed;
+  }
+}
+
+// Create an array of initial todo items
+const initialTodos = [new Todo("Demo Todo", false)];
+
+// Define a function to render a todo item as an li element
+function renderTodoItem(todo) {
+  const li = document.createElement("li");
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  li.className = "flex align-items-center";
+  li.appendChild(checkbox);
+  checkbox.className =
+    "form-checkbox h-5 w-5 text-gray-600 mr-2 bg-red-100 border-red-300 text-red-500 focus:ring-red-200";
+  li.appendChild(document.createTextNode(todo.text));
+  const deleteButton = document.createElement("button");
+  deleteButton.className = "ml-auto";
+  deleteButton.innerText = "Delete";
+  li.appendChild(deleteButton);
+  todoList.appendChild(li);
+
+  // Add event listener to checkbox
+  checkbox.addEventListener("change", isChecked);
+
+  // Add event listener to delete button
+  deleteButton.addEventListener("click", deleteTodoItem);
+
+  if (todo.completed) {
+    li.classList.add("line-through");
+    li.classList.add("text-slate-500");
+    checkbox.checked = true;
+  }
+}
+
+// Define a function to render all initial todo items
+function renderInitialTodos() {
+  initialTodos.forEach((todo) => renderTodoItem(todo));
+}
+
 // Define a function to add a new todo item to the list
 function addTodoItem(event) {
   // Prevent the default form submission behavior
@@ -16,18 +59,9 @@ function addTodoItem(event) {
     return;
   }
 
-  // Create a new list item and add it to the list
-  const li = document.createElement("li");
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  li.className = "flex align-items-center";
-  li.appendChild(checkbox);
-  checkbox.className = "form-checkbox h-5 w-5 text-gray-600 mr-2 ";
-  li.appendChild(document.createTextNode(todoText));
-  todoList.appendChild(li);
-
-  // Add event listener to checkbox
-  checkbox.addEventListener("change", isChecked);
+  // Create a new todo object and add it to the list
+  const todo = new Todo(todoText, false);
+  renderTodoItem(todo);
 
   // Reset the input field to an empty string
   input.value = "";
@@ -50,17 +84,14 @@ function isChecked(event) {
   allLis.forEach((li) => li.classList.remove("completed"));
 }
 
-// Define a function to mark a todo item as completed
-function completeTodoItem(event) {
-  // If the clicked element is not an li, do nothing
-  if (event.target.tagName !== "LI") {
-    return;
-  }
-
-  // Toggle the completed class on the clicked li
-  event.target.classList.toggle("completed");
+// Define a function to delete a todo item
+function deleteTodoItem(event) {
+  const li = event.target.parentNode;
+  todoList.removeChild(li);
 }
+
+// Render all initial todo items when the page loads
+renderInitialTodos();
 
 // Add event listeners to the form and the todo list
 form.addEventListener("submit", addTodoItem);
-todoList.addEventListener("click", completeTodoItem);
