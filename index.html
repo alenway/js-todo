@@ -4,36 +4,38 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Document</title>
+    <link rel="stylesheet" href="main.css" />
+    <title>Task List</title>
   </head>
   <body>
-    <header class="bg-teal-400 py-6 text-center">
-      <h1 class="text-5xl">TODO App</h1>
+    <header>
+      <h1>Task List</h1>
+      <form action="" id="new-task-form">
+        <input
+          type="text"
+          id="new-task-input"
+          placeholder="What do you have planned?"
+        />
+        <input type="text" value="Add task" id="new-task-submit" />
+      </form>
     </header>
 
-    <section class="my-2">
-      <div class="container mx-auto w-3/5">
-        <form class="flex justify-between mx-5">
-          <input
-            class="bg-orange-100 w-4/5 rounded py-2 px-2 placeholder-orange-300 text-orange-300"
-            type="text"
-            placeholder="text"
-          />
-          <button
-            class="bg-orange-100 text-orange-300 p-3 rounded"
-            type="submit"
-          >
-            Add
-          </button>
-        </form>
-
-        <div class="my-3">
-          <ul id="todoList"></ul>
+    <main>
+      <section>
+        <h2>tasks</h2>
+        <div id="tasks">
+          <!-- <div class="task">
+            <div class="content">
+              <input type="text" class="text" value="My shiny task" readonly />
+            </div>
+            <div class="actions">
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </div>
+          </div> -->
         </div>
-      </div>
-    </section>
-
-    <script src="script.js"></script>
+      </section>
+    </main>
+    <script src="main.js"></script>
   </body>
 </html>

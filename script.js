@@ -15,28 +15,41 @@ const initialTodos = [new Todo("Demo Todo", false)];
 // Define a function to render a todo item as an li element
 function renderTodoItem(todo) {
   const li = document.createElement("li");
+  const span = document.createTextNode(todo.text);
   const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
+  const deleteButton = document.createElement("button");
+  const updateButton = document.createElement("button");
+
   li.className = "flex align-items-center";
-  li.appendChild(checkbox);
+
+  checkbox.type = "checkbox";
   checkbox.className =
     "form-checkbox h-5 w-5 text-gray-600 mr-2 bg-red-100 border-red-300 text-red-500 focus:ring-red-200";
-  li.appendChild(document.createTextNode(todo.text));
-  const deleteButton = document.createElement("button");
+
   deleteButton.className = "ml-auto";
   deleteButton.innerText = "Delete";
+
+  updateButton.innerText = "Update";
+  updateButton.className = "ml-auto";
+
+  li.appendChild(checkbox);
+  li.appendChild(span);
+  li.appendChild(updateButton);
   li.appendChild(deleteButton);
   todoList.appendChild(li);
 
   // Add event listener to checkbox
   checkbox.addEventListener("change", isChecked);
 
+  // Add event listener to update button
+  updateButton.addEventListener("click", updateTodoItem);
+
   // Add event listener to delete button
   deleteButton.addEventListener("click", deleteTodoItem);
 
   if (todo.completed) {
-    li.classList.add("line-through");
-    li.classList.add("text-slate-500");
+    span.classList.add("line-through");
+    span.classList.add("text-slate-500");
     checkbox.checked = true;
   }
 }
@@ -82,6 +95,10 @@ function isChecked(event) {
   // Loop through all li elements and remove the completed class
   const allLis = document.querySelectorAll("li");
   allLis.forEach((li) => li.classList.remove("completed"));
+}
+
+function updateTodoItem() {
+  console.log("update todo");
 }
 
 // Define a function to delete a todo item
